@@ -5,13 +5,21 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const app = express();
-app.use(bodyParser.json());
-app.post('/', (request, response, next) => {
-  console.log(request.body);
-  response.send("success\n");
+
+app.post('/*', (request, response, next) => {
+  response.set({
+    'Access-Control-Allow-Origin': '*'
+  });
+
+  response.send("Hello");
   next();
 })
 
+app.options('/*', (request, response, next) => {
+  console.log("options");
+  response.send("success\n");
+  next();
+});
 
 const server = http.createServer(app)
 
